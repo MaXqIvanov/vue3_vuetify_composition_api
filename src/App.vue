@@ -11,28 +11,22 @@
 </template>
 
 <script>
-import ContentBlock from './components/ContentBlock';
+import ContentBlock from './pages/ContentBlock';
 import Footer from './components/Footer';
-
 export default {
   name: 'App',
-
   components: {
     ContentBlock,
-    Footer
+    Footer,
   },
-
   computed: {
     localAttrs () {
       const attrs = {}
-
       attrs.absolute = true
       attrs.fixed = false
-
       return attrs
     },
   },
-
   data: () => ({
     //
   }),

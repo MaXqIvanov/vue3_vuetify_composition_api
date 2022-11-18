@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
   export default {
     name: 'ContentBlock',
 
@@ -122,5 +123,11 @@
         },
       ],
     }),
+    computed: mapState({
+      cars_all: (state)=> state.users.cars_all,
+    }),
+    mounted() {
+      console.log(this.cars_all)
+    },
   }
 </script>
