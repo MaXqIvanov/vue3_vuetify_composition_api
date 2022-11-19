@@ -3,15 +3,15 @@
     <v-row
         align="center"
         justify="center"
-        class="ma-4"
+        class="ma-4 main-content"
     >
       <v-col
           cols="6"
           md="4"
           class="filters"
       >
-      <filter-by-country label="Filter by country"/>
-      <filter-by-score label="Filter by score"/>
+      <filter-by-country/>
+      <filter-by-score/>
       </v-col>
 
       <v-col
@@ -29,7 +29,6 @@
 import FilterByCountry from '../components/content_block/FilterByCountry.vue';
 import FilterByScore from '../components/content_block/FilterByScore.vue';
 import UserList from '../components/content_block/UserList.vue';
-import { ref } from 'vue';
   export default {
     name: 'ContentBlock',
     components: {
@@ -38,15 +37,6 @@ import { ref } from 'vue';
       FilterByScore
     },
     setup() {
-        const items = ref([
-            'russia',
-            'usa',
-            '> 20',
-            '< 10',
-        ])
-        const variant = ref('default')
-
-        return {items, variant}
     }
   }
 </script>
@@ -60,5 +50,8 @@ import { ref } from 'vue';
       .v-input{
         margin: 10px;
       }
+   }
+   .main-content{
+    min-height: calc(100vh - 150px);
    }
 </style>

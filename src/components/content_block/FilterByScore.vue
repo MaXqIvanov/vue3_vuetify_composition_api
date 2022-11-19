@@ -1,25 +1,28 @@
+
 <template lang="">
     <v-select
         class="custom_select"
-        v-model="current_value"
-        :items="items"
+        :items="users.filter_by_score"
         clearable
-        :label="label"
+        label="Filter by score"
+        v-model="users.current_filter_by_score"
     ></v-select>
 </template>
 <script lang="ts">
-interface FilterByScore {
-    current_value?: Array<Object>,
-    items?: Object,
-    label: string
-}
+import { computed, watch } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
     name: 'FilterByScore',
-    setup({label}: FilterByScore) {
-        
-        return {
-            label
-        }
+    setup() {
+        const store = useStore()
+        const users = computed(() => store.state.users);
+
+        watch(()=> users.value.current_filter_by_score, () => {
+            store.commit('users/Filters')
+        })
+
+        return {users}
     }
 
 }

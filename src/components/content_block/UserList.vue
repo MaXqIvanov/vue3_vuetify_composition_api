@@ -1,34 +1,50 @@
 <template lang="">
 <div class="list-users">
     <div class="list-user-title"><span>Список пользователей</span></div>
-    <div class="one-user" v-for="(user, index) in users" :key="user.header + index">
-        <div :style="{backgroundImage: `url(${user.avatar})`}" class="user-image"></div>
+    <transition-group name="list" tag="p">
+    <div class="one-user" v-for="(user) in users.users_filter" :key="user.id">
+        <div :style="{backgroundImage: `url(${user.avatar})`}" class="user-image" @click.stop="store.commit('users/setCurrentUser', user)"></div>
         <div class="user-body">
             <div class="user-body-title" v-html="user.title"></div>
             <div class="user-body-subtitle" v-html="user.subtitle"></div>
-            <div class="user_diviver"></div>
+            <div v-if="user.id === users.current_user.id" class="user-body-address">адрес: {{user.address}}</div>
+            <div :style="[user.id === users.current_user.id ? {bottom: '0px'} : {bottom: '-10px'}]" class="user_diviver"></div>
         </div>
     </div>
+    </transition-group>
 </div>
 </template>
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 export default {
     name: 'UserList',
     setup(){
         const store = useStore()
-        const users = computed(() => store.state.users.users);
+        const users = computed(() => store.state.users);
+        document.addEventListener('click', () => store.commit('users/setCurrentUser', {}));
+        onUnmounted(() => {
+            document.removeEventListener('click', () => store.commit('users/setCurrentUser', {}));
+        })
         return {
-            users
+            users, store
         }
     }
 }
 </script>
 <style lang="scss">
+    .user-body-address{
+        margin: 0;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical; 
+        overflow: hidden;
+        font-size: 0.875rem;
+        color: #787878;
+        margin-bottom: 10px;
+    }
     .user_diviver{
         position: absolute;
-        bottom: 2px;
         right: 0px;
         height: 1px;
         width: calc(100% - 10px);
@@ -89,7 +105,8 @@ export default {
         text-align: left;
     }
     .one-user{
-        height: 80px;
+        height: fit-content;
+        min-height: 80px;
         width: 100%;
         border-radius: 5px;
         display: flex;
@@ -102,4 +119,17 @@ export default {
             }
         }
     }
+    .list-item {
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .list-enter-active,
+      .list-leave-active {
+        transition: all 1s ease;
+      }
+      .list-enter-from,
+      .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+      }
 </style>
