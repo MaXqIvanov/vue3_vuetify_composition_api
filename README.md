@@ -9,3 +9,7 @@ npm install
 ```
 npm run serve
 ```
+
+### Сайт для просмотра
+
+http://web-helpers.ru:5003/
